@@ -61,17 +61,24 @@ export function Attribution() {
       <p className="mt-3 text-fog-3">
         Inside each step those two are badged, so you never have to guess which
         you&apos;re reading. Where a blank exists it&apos;s usually because
-        Nick&apos;s own checklist implies one — step 1 tells you to pick a market
-        segment, then a system type, then write &ldquo;I build X systems for Y
-        niche&rdquo;. So this edition gives you three boxes and assembles the
-        sentence. The narrowing is his; the boxes are ours.
+        Nick&apos;s own checklist implies one — step 1 tells you to pick a
+        market segment, then a system type, then write &ldquo;I build X systems
+        for Y niche&rdquo;. So this edition gives you three boxes and assembles
+        the sentence. The narrowing is his; the boxes are ours.
       </p>
 
       <p className="mt-3 text-fog-3">
-        This site is <strong className="text-fog-2">unofficial</strong> and is
-        not affiliated with, endorsed by, or reviewed by Nick Saraev. It was
-        built by a reader who wanted checkboxes. Resource links are preserved
-        exactly as they appear on the board, including his affiliate links.
+        Built for the <strong className="text-fog-2">Maker Zero</strong>{" "}
+        community — and for anyone else working Nick&apos;s roadmap, wherever
+        you happen to be on it. Nobody starts on step 1 forever, and nobody is
+        behind.
+      </p>
+
+      <p className="mt-3 text-fog-3">
+        This site is <strong className="text-fog-2">unofficial</strong>. It is
+        not affiliated with, endorsed by, or reviewed by Nick Saraev or Maker
+        Zero. Resource links are preserved exactly as they appear on the board,
+        including his affiliate links.
       </p>
     </section>
   );

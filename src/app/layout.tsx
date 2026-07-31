@@ -43,7 +43,9 @@ export const metadata: Metadata = {
     "interactive roadmap checklist",
     "fill in the blanks roadmap",
   ],
-  authors: [{ name: "Daniel Aguilar", url: "https://receiptsnotvibes.ai/about" }],
+  authors: [
+    { name: "Daniel Aguilar", url: "https://receiptsnotvibes.ai/about" },
+  ],
   creator: "Daniel Aguilar",
   alternates: { canonical: SITE_URL },
   openGraph: {

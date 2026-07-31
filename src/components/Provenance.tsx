@@ -11,12 +11,14 @@
  */
 export type Source = "nick" | "edition" | "yours";
 
-const STYLE: Record<Source, { label: string; className: string; title: string }> = {
+const STYLE: Record<
+  Source,
+  { label: string; className: string; title: string }
+> = {
   nick: {
     label: "from Nick's board",
     className: "bg-fog-3/12 text-fog-2",
-    title:
-      "Verbatim from Nick Saraev's Whimsical board — wording unchanged.",
+    title: "Verbatim from Nick Saraev's Whimsical board — wording unchanged.",
   },
   edition: {
     label: "added here",

@@ -18,6 +18,7 @@ import {
 } from "@/lib/derive";
 import { DAILY_RITUAL } from "@/data/journey";
 import { Attribution } from "./Attribution";
+import { AskClaudeOverview } from "./AskClaude";
 
 function Ring({ ratio, label }: { ratio: number; label: string }) {
   const pct = Math.round(ratio * 100);
@@ -202,6 +203,8 @@ export function Dashboard({
           <span className="shrink-0 text-sm text-fog-3">Open →</span>
         </button>
       </section>
+
+      <AskClaudeOverview />
 
       {/* Business profile ---------------------------------------------- */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

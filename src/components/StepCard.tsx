@@ -20,6 +20,7 @@ import {
 import { BlankField } from "./BlankField";
 import { LinkChips, LinkList } from "./LinkCard";
 import { SectionHeading, SourceBadge } from "./Provenance";
+import { AskClaudeStep } from "./AskClaude";
 
 const STATUS_LABEL: Record<StepStatus, string> = {
   todo: "Not started",
@@ -313,6 +314,8 @@ export function StepCard({
               })}
             </ul>
           </div>
+
+          <AskClaudeStep step={step} />
 
           {/* Blanks ------------------------------------------------------ */}
           {!!step.blanks?.length && (

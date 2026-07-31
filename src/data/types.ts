@@ -66,4 +66,9 @@ export interface Step {
   why?: string;
   /** Rough effort estimate to help sequencing. */
   effort?: string;
+  /**
+   * Step-specific questions offered by "Work this out with Claude". Editorial,
+   * like `why` and `blanks` — not on Nick's board.
+   */
+  asks?: string[];
 }

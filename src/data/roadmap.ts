@@ -65,6 +65,11 @@ export const PHASES: Phase[] = [
 export const STEPS: Step[] = [
   {
     id: "niche",
+    asks: [
+      "Is my niche too broad for cold outreach? Give me 5 sharper alternatives and say which you'd pick, and why.",
+      "Draft three versions of my positioning statement and tell me which one lands hardest with a buyer.",
+      "Who exactly would I be emailing in this niche — job titles, company size, and where I'd find them?",
+    ],
     n: 1,
     phase: "foundation",
     title: "Define your niche",
@@ -126,6 +131,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "name",
+    asks: [
+      "Give me 10 short, memorable business names that fit my positioning, and flag any that sound like an existing agency.",
+    ],
     n: 2,
     phase: "foundation",
     title: "Come up with a business name",
@@ -167,6 +175,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "portfolio",
+    asks: [
+      "Suggest 5 concrete systems I could build as portfolio pieces for my niche, ordered by how impressive they'd look to a buyer.",
+      "For my niche, what does a genuinely useful automation actually replace? Be specific about the manual work it kills.",
+    ],
     n: 3,
     phase: "foundation",
     title: "Build 5 case studies or portfolio pieces",
@@ -243,6 +255,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "domains",
+    asks: [
+      "Suggest sending-domain variants for my main domain that won't look spammy to a filter or a human.",
+    ],
     n: 4,
     phase: "infrastructure",
     title: "Buy main domain + 3 sending domains",
@@ -306,6 +321,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "website",
+    asks: [
+      "Write the copy for a one-page site for my positioning — hero, three proof points, and one call to action. Keep it short.",
+    ],
     n: 5,
     phase: "infrastructure",
     title: "Create + publish website using a drag-and-drop builder",
@@ -434,6 +452,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "mailboxes",
+    asks: [
+      "Walk me through SPF, DKIM and DMARC for my sending domains in plain language, in the order I should actually do them.",
+    ],
     n: 7,
     phase: "infrastructure",
     title: "Add 3 sending domains as secondaries, 3 mailboxes each",
@@ -517,6 +538,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "coldemail",
+    asks: [
+      "Draft a 4-email cold sequence for my niche using my positioning. Short, specific, no fluff.",
+      "Review my warmup and volume plan — is my daily send target realistic for the number of mailboxes I have?",
+    ],
     n: 8,
     phase: "channels",
     title: "Get Instantly or Smartlead and start warming mailboxes",
@@ -598,6 +623,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "upwork",
+    asks: [
+      "Write my Upwork headline and the above-the-fold copy for my profile, using my positioning.",
+      "Given my niche, which Upwork searches should I be trying to rank for, and how do I word things to hit them?",
+    ],
     n: 9,
     phase: "channels",
     title: "Create an Upwork profile using best practices",
@@ -673,6 +702,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "communities",
+    asks: [
+      "Where would my niche actually hang out online? Name specific communities and tell me how to judge if they're active.",
+      "Give me 6 thread ideas that solve real problems for this niche without pitching anything.",
+    ],
     n: 10,
     phase: "channels",
     title: "Find 3 communities + set up a content calendar",
@@ -747,6 +780,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "crm",
+    asks: [
+      "What is the genuinely minimum CRM setup for a solo operator with zero customers? Talk me out of over-building it.",
+    ],
     n: 11,
     phase: "operations",
     title: "Set up a CRM on ClickUp, Monday, or alternative",
@@ -775,6 +811,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "proposal",
+    asks: [
+      "Draft a proposal template for a templated automation build in my niche, with the agreement folded in.",
+    ],
     n: 12,
     phase: "operations",
     title: "Create a proposal template on PandaDoc or alternative",
@@ -810,6 +849,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "payments",
+    asks: [
+      "Explain Stripe invoices vs payments vs subscriptions for my situation, and tell me which I need first.",
+    ],
     n: 13,
     phase: "operations",
     title: "Set up Stripe or an alternative payment processor",
@@ -851,6 +893,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "daily-sales",
+    asks: [
+      "Build me a realistic daily schedule across these three blocks that honestly fits in under two hours.",
+      "I keep skipping the sales block. Diagnose why that happens and give me a fix that doesn't rely on willpower.",
+    ],
     n: 14,
     phase: "engine",
     title: "Set daily calendar reminders to tackle sales systematically",
@@ -936,6 +982,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "time-first",
+    asks: [
+      "Help me plan the kickoff call, fulfilment, and delivery video for my first client, start to finish.",
+    ],
     n: 15,
     phase: "first-client",
     title: "After first customer won, time project completion",
@@ -1005,6 +1054,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "retro",
+    asks: [
+      "Analyse my hourly rate against Nick's $200/hr benchmark and name the two changes that would move it most.",
+      "Run a proper retrospective with me on this project — ask me the questions I'd avoid asking myself.",
+    ],
     n: 16,
     phase: "first-client",
     title: "Calculate hourly rate and perform a retrospective",
@@ -1050,6 +1103,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "pm-system",
+    asks: [
+      "What's the minimum project-management structure for a solo operator who might hire later? Don't gold-plate it.",
+    ],
     n: 17,
     phase: "first-client",
     title: "Set up a project management system",
@@ -1098,6 +1154,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "scale-10k",
+    asks: [
+      "Given exactly where I am, what would you focus on next to reach $10K/month? Rank by leverage.",
+    ],
     n: 18,
     phase: "scale",
     title: "Scale customer acquisition until $10K revenue",
@@ -1140,6 +1199,10 @@ export const STEPS: Step[] = [
   },
   {
     id: "opt-sales",
+    asks: [
+      "Given my channel breakdown, which channel should I 10x, and what would 10x-ing it concretely look like?",
+      "What could I automate in my own sales process so it survives more volume?",
+    ],
     n: 19,
     phase: "scale",
     title: "Optimize sales funnel, prioritizing by ROI",
@@ -1199,6 +1262,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "opt-pm",
+    asks: [
+      "Where is my delivery most likely bottlenecked right now, and what system would fix it?",
+    ],
     n: 20,
     phase: "scale",
     title: "Optimize project management, prioritizing by ROI",
@@ -1229,6 +1295,9 @@ export const STEPS: Step[] = [
   },
   {
     id: "scale-25k",
+    asks: [
+      "Solo, small team, or a non-service offer — argue each case for my situation, then recommend one.",
+    ],
     n: 21,
     phase: "scale",
     title: "Scale customer acquisition until $25K revenue",
