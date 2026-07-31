@@ -39,7 +39,9 @@ export function LinkCard({
             {hostOf(link.url)}
           </div>
           {link.note && (
-            <p className="mt-1.5 text-xs leading-relaxed text-fog-2">{link.note}</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-fog-2">
+              {link.note}
+            </p>
           )}
         </div>
 
@@ -59,7 +61,9 @@ export function LinkCard({
         <div className="no-print border-t border-ink-3 bg-ink-0 p-2">
           <div
             className="w-full overflow-hidden rounded-md bg-black"
-            style={{ aspectRatio: embed.mode === "youtube" ? "16 / 9" : "16 / 10" }}
+            style={{
+              aspectRatio: embed.mode === "youtube" ? "16 / 9" : "16 / 10",
+            }}
           >
             <iframe
               src={embed.src}
@@ -100,7 +104,10 @@ export function LinkList({ links }: { links?: LinkRef[] }) {
       {links.map((l) => {
         const open = openUrl === l.url;
         return (
-          <div key={l.url + l.label} className={open ? "sm:col-span-2" : undefined}>
+          <div
+            key={l.url + l.label}
+            className={open ? "sm:col-span-2" : undefined}
+          >
             <LinkCard
               link={l}
               open={open}

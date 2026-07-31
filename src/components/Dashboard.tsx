@@ -17,6 +17,7 @@ import {
   todayKey,
 } from "@/lib/derive";
 import { DAILY_RITUAL } from "@/data/journey";
+import { Attribution } from "./Attribution";
 
 function Ring({ ratio, label }: { ratio: number; label: string }) {
   const pct = Math.round(ratio * 100);
@@ -26,7 +27,14 @@ function Ring({ ratio, label }: { ratio: number; label: string }) {
   return (
     <div className="flex items-center gap-4">
       <svg viewBox="0 0 80 80" className="size-20 shrink-0 -rotate-90">
-        <circle cx="40" cy="40" r={r} fill="none" stroke="var(--color-ink-3)" strokeWidth="7" />
+        <circle
+          cx="40"
+          cy="40"
+          r={r}
+          fill="none"
+          stroke="var(--color-ink-3)"
+          strokeWidth="7"
+        />
         <circle
           cx="40"
           cy="40"
@@ -66,17 +74,33 @@ function Stat({
       </div>
       <div
         className={`mt-1 text-xl font-semibold tabular-nums ${
-          tone === "cash" ? "text-cash" : tone === "warn" ? "text-warn" : "text-fog-0"
+          tone === "cash"
+            ? "text-cash"
+            : tone === "warn"
+              ? "text-warn"
+              : "text-fog-0"
         }`}
       >
         {value}
       </div>
-      {sub && <div className="mt-0.5 text-[11px] leading-snug text-fog-3">{sub}</div>}
+      {sub && (
+        <div className="mt-0.5 text-[11px] leading-snug text-fog-3">{sub}</div>
+      )}
     </div>
   );
 }
 
-export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
+export function Dashboard({
+  onGoto,
+  onOpenShowcase,
+  showcaseLabel,
+  showcaseBlurb,
+}: {
+  onGoto: (n: number) => void;
+  onOpenShowcase?: () => void;
+  showcaseLabel?: string;
+  showcaseBlurb?: string;
+}) {
   const s = useRoadmapState();
   const o = overall(s);
   const cur = currentStep(s);
@@ -108,7 +132,9 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
                 {o.subsDone}
                 <span className="text-base text-fog-3">/{o.subsTotal}</span>
               </div>
-              <div className="mt-0.5 text-[11px] text-fog-3">checklist items</div>
+              <div className="mt-0.5 text-[11px] text-fog-3">
+                checklist items
+              </div>
             </div>
             <div>
               <div className="text-2xl font-bold tabular-nums text-cash">
@@ -120,6 +146,28 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
           </div>
         </div>
       </section>
+
+      {onOpenShowcase && (
+        <button
+          type="button"
+          onClick={onOpenShowcase}
+          className="card no-print flex w-full items-center gap-4 p-4 text-left transition hover:border-lift/50"
+        >
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lift/15 text-lg">
+            👀
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-fog-0">
+              See {showcaseLabel ?? "a worked example"}
+            </span>
+            <span className="mt-0.5 block text-xs text-fog-3">
+              {showcaseBlurb ??
+                "Someone else's run through the same roadmap — read-only, your progress is untouched"}
+            </span>
+          </span>
+          <span className="shrink-0 text-sm text-fog-3">View →</span>
+        </button>
+      )}
 
       {/* Where you are ------------------------------------------------- */}
       <section className="card overflow-hidden">
@@ -143,10 +191,12 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
             {cur.n}
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-base font-semibold text-fog-0">{cur.title}</span>
+            <span className="block text-base font-semibold text-fog-0">
+              {cur.title}
+            </span>
             <span className="mt-0.5 block text-xs text-fog-3">
-              {stepProgress(cur, s).subsDone}/{cur.subs.length} checklist items ·{" "}
-              {cur.effort ?? "—"}
+              {stepProgress(cur, s).subsDone}/{cur.subs.length} checklist items
+              · {cur.effort ?? "—"}
             </span>
           </span>
           <span className="shrink-0 text-sm text-fog-3">Open →</span>
@@ -194,7 +244,9 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
       {/* Revenue meter --------------------------------------------------- */}
       <section className="card p-5">
         <div className="mb-2 flex items-baseline justify-between">
-          <h3 className="text-sm font-semibold text-fog-0">Road to $25K/month</h3>
+          <h3 className="text-sm font-semibold text-fog-0">
+            Road to $25K/month
+          </h3>
           <span className="font-mono text-xs text-fog-3">
             {money(revenue)} / {money(MRR_TARGET)}
           </span>
@@ -225,7 +277,10 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
           </h3>
           <ul className="space-y-2">
             {upcoming.map((u) => (
-              <li key={u.label} className="flex items-center justify-between gap-4">
+              <li
+                key={u.label}
+                className="flex items-center justify-between gap-4"
+              >
                 <button
                   type="button"
                   onClick={() => onGoto(u.step)}
@@ -233,13 +288,16 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
                 >
                   {u.label}
                 </button>
-                <span className="font-mono text-sm tabular-nums text-warn">{u.date}</span>
+                <span className="font-mono text-sm tabular-nums text-warn">
+                  {u.date}
+                </span>
               </li>
             ))}
           </ul>
           <p className="mt-3 text-[11px] leading-relaxed text-fog-3">
-            These aren&apos;t written on the board — they&apos;re computed from the waits
-            it describes (SPF + 48hrs, warmup + 20 days). Put them in a real calendar too.
+            These aren&apos;t written on the board — they&apos;re computed from
+            the waits it describes (SPF + 48hrs, warmup + 20 days). Put them in
+            a real calendar too.
           </p>
         </section>
       )}
@@ -264,7 +322,9 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
                     {done}/{steps.length}
                   </span>
                 </div>
-                <p className="mb-2 text-xs leading-relaxed text-fog-3">{phase.blurb}</p>
+                <p className="mb-2 text-xs leading-relaxed text-fog-3">
+                  {phase.blurb}
+                </p>
                 <div className="flex flex-wrap gap-1.5">
                   {steps.map((st) => {
                     const stStatus = s.steps[st.id] ?? "todo";
@@ -277,7 +337,9 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
                         className="grid size-7 place-items-center rounded-md border font-mono text-[11px] font-semibold transition hover:scale-105"
                         style={{
                           borderColor:
-                            stStatus === "todo" ? "var(--color-ink-4)" : phase.accent,
+                            stStatus === "todo"
+                              ? "var(--color-ink-4)"
+                              : phase.accent,
                           background:
                             stStatus === "done"
                               ? phase.accent
@@ -321,6 +383,8 @@ export function Dashboard({ onGoto }: { onGoto: (n: number) => void }) {
           Original Whimsical board ↗
         </a>
       </section>
+
+      <Attribution />
     </div>
   );
 }

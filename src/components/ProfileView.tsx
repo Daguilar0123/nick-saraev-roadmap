@@ -5,6 +5,8 @@ import { PHASES, STEPS } from "@/data/roadmap";
 import { BlankField } from "./BlankField";
 import { useRoadmapActions, useRoadmapState, exportState } from "@/lib/store";
 import { blankKeys, positioning } from "@/lib/derive";
+import { ShareTools } from "./ShareTools";
+import { Attribution } from "./Attribution";
 
 function Toolbar() {
   const s = useRoadmapState();
@@ -117,17 +119,21 @@ export function ProfileView({ onGoto }: { onGoto: (n: number) => void }) {
   const pos = positioning(s);
 
   const profileBlanks = STEPS.flatMap((st) =>
-    (st.blanks ?? []).filter((b) => b.profile).map((b) => ({ step: st, blank: b })),
+    (st.blanks ?? [])
+      .filter((b) => b.profile)
+      .map((b) => ({ step: st, blank: b })),
   );
 
   return (
     <div className="space-y-6">
       <section className="card p-6">
-        <h2 className="text-2xl font-bold text-fog-0">Your business, in one page</h2>
+        <h2 className="text-2xl font-bold text-fog-0">
+          Your business, in one page
+        </h2>
         <p className="mt-2 text-sm leading-relaxed text-fog-2">
           Every answer below is defined once and reused across the roadmap. The
-          positioning sentence in particular flows into your site copy, cold email angle
-          and Upwork headline.
+          positioning sentence in particular flows into your site copy, cold
+          email angle and Upwork headline.
         </p>
 
         <div className="mt-5 rounded-xl border border-lift/30 bg-lift/8 p-5">
@@ -171,14 +177,18 @@ export function ProfileView({ onGoto }: { onGoto: (n: number) => void }) {
       </section>
 
       <section className="card p-5">
-        <h3 className="mb-1 text-sm font-semibold text-fog-0">Every blank, by step</h3>
+        <h3 className="mb-1 text-sm font-semibold text-fog-0">
+          Every blank, by step
+        </h3>
         <p className="mb-4 text-xs text-fog-3">
           A fill-status map of the whole roadmap. Click any row to jump to it.
         </p>
         <div className="space-y-1.5">
           {STEPS.filter((st) => st.blanks?.length).map((st) => {
             const keys = (st.blanks ?? []).flatMap(blankKeys);
-            const filled = keys.filter((k) => (s.blanks[k] ?? "").trim()).length;
+            const filled = keys.filter((k) =>
+              (s.blanks[k] ?? "").trim(),
+            ).length;
             const phase = PHASES.find((p) => p.id === st.phase)!;
             const pct = Math.round((filled / keys.length) * 100);
             return (
@@ -202,7 +212,10 @@ export function ProfileView({ onGoto }: { onGoto: (n: number) => void }) {
                     className="block h-full rounded-full"
                     style={{
                       width: `${pct}%`,
-                      background: filled === keys.length ? "var(--color-cash)" : phase.accent,
+                      background:
+                        filled === keys.length
+                          ? "var(--color-cash)"
+                          : phase.accent,
                     }}
                   />
                 </span>
@@ -219,7 +232,11 @@ export function ProfileView({ onGoto }: { onGoto: (n: number) => void }) {
         </div>
       </section>
 
+      <ShareTools />
+
       <Toolbar />
+
+      <Attribution />
     </div>
   );
 }

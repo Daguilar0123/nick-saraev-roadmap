@@ -3,7 +3,12 @@
 import { useMemo, useState } from "react";
 import { PHASES } from "@/data/roadmap";
 import type { Step } from "@/data/types";
-import { useRoadmapActions, useRoadmapState, type StepStatus } from "@/lib/store";
+import {
+  useIsOverlay,
+  useRoadmapActions,
+  useRoadmapState,
+  type StepStatus,
+} from "@/lib/store";
 import {
   campaignLaunch,
   dkimDue,
@@ -23,6 +28,7 @@ const STATUS_LABEL: Record<StepStatus, string> = {
 
 function StatusToggle({ id, status }: { id: string; status: StepStatus }) {
   const { setStepStatus } = useRoadmapActions();
+  const readOnly = useIsOverlay();
   const order: StepStatus[] = ["todo", "doing", "done"];
 
   return (
@@ -35,6 +41,7 @@ function StatusToggle({ id, status }: { id: string; status: StepStatus }) {
             e.stopPropagation();
             setStepStatus(id, s);
           }}
+          disabled={readOnly}
           aria-pressed={status === s}
           className={`px-2.5 py-1 text-[11px] font-medium transition ${
             status === s
@@ -68,7 +75,8 @@ function DerivedCallout({ step }: { step: Step }) {
   }
   if (step.id === "mailboxes") {
     const d = dkimDue(s);
-    if (d) items.push({ label: "DKIM due (SPF + 48hrs)", value: d, tone: "warn" });
+    if (d)
+      items.push({ label: "DKIM due (SPF + 48hrs)", value: d, tone: "warn" });
   }
   if (step.id === "coldemail") {
     const d = campaignLaunch(s);
@@ -139,6 +147,7 @@ export function StepCard({
 }) {
   const s = useRoadmapState();
   const { toggleSub, setSubs, setNote } = useRoadmapActions();
+  const readOnly = useIsOverlay();
   const [open, setOpen] = useState(defaultOpen);
 
   const phase = useMemo(
@@ -172,7 +181,9 @@ export function StepCard({
         <div className="min-w-0 flex-1">
           <h3
             className={`text-[15px] font-semibold leading-snug ${
-              status === "done" ? "text-fog-2 line-through decoration-fog-3" : "text-fog-0"
+              status === "done"
+                ? "text-fog-2 line-through decoration-fog-3"
+                : "text-fog-0"
             }`}
           >
             {step.title}
@@ -190,7 +201,11 @@ export function StepCard({
               {p.subsDone}/{p.subsTotal} items
             </span>
             {p.blanksTotal > 0 && (
-              <span className={p.blanksDone === p.blanksTotal ? "text-cash" : undefined}>
+              <span
+                className={
+                  p.blanksDone === p.blanksTotal ? "text-cash" : undefined
+                }
+              >
                 {p.blanksDone}/{p.blanksTotal} blanks filled
               </span>
             )}
@@ -209,23 +224,32 @@ export function StepCard({
 
         <div className="flex shrink-0 flex-col items-end gap-2">
           <StatusToggle id={step.id} status={status} />
-          <span className="no-print text-xs text-fog-3">{open ? "▾" : "▸"}</span>
+          <span className="no-print text-xs text-fog-3">
+            {open ? "▾" : "▸"}
+          </span>
         </div>
       </header>
 
       {open && (
         <div className="space-y-5 border-t border-ink-3 px-4 pb-5 pt-4">
-          {step.why && (
-            <p className="border-l-2 border-ink-4 pl-3 text-sm leading-relaxed text-fog-2 italic">
-              {step.why}
+          {step.source && step.source !== step.title && (
+            <p className="text-[11px] text-fog-3">
+              Nick&apos;s wording:{" "}
+              <span className="font-mono text-fog-2">“{step.source}”</span>
             </p>
           )}
 
-          {step.source && step.source !== step.title && (
-            <p className="text-[11px] text-fog-3">
-              On the board:{" "}
-              <span className="font-mono text-fog-2">“{step.source}”</span>
-            </p>
+          {/* Editorial. Labelled because everything else on this card is
+              Nick's, and a reader should never have to guess which is which. */}
+          {step.why && (
+            <div className="border-l-2 border-ink-4 pl-3">
+              <div className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-fog-3">
+                Reader&apos;s note · not Nick&apos;s words
+              </div>
+              <p className="text-sm italic leading-relaxed text-fog-2">
+                {step.why}
+              </p>
+            </div>
           )}
 
           {/* Sub-items --------------------------------------------------- */}
@@ -234,18 +258,20 @@ export function StepCard({
               <h4 className="text-[11px] font-bold uppercase tracking-wider text-fog-3">
                 Checklist
               </h4>
-              <button
-                type="button"
-                onClick={() =>
-                  setSubs(
-                    step.subs.map((x) => x.id),
-                    !allSubsDone,
-                  )
-                }
-                className="no-print text-[11px] text-fog-3 underline underline-offset-2 hover:text-fog-1"
-              >
-                {allSubsDone ? "Clear all" : "Check all"}
-              </button>
+              {!readOnly && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSubs(
+                      step.subs.map((x) => x.id),
+                      !allSubsDone,
+                    )
+                  }
+                  className="no-print text-[11px] text-fog-3 underline underline-offset-2 hover:text-fog-1"
+                >
+                  {allSubsDone ? "Clear all" : "Check all"}
+                </button>
+              )}
             </div>
             <ul className="space-y-1">
               {step.subs.map((sub) => {
@@ -263,6 +289,7 @@ export function StepCard({
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleSub(sub.id)}
+                        disabled={readOnly}
                         className="mt-0.5 size-4 shrink-0 cursor-pointer accent-[var(--color-lift)]"
                       />
                       <span
@@ -322,7 +349,12 @@ export function StepCard({
             </h4>
             <textarea
               className="field min-h-[4.5rem] resize-y"
-              placeholder="What you actually did, what broke, what you'd do differently…"
+              placeholder={
+                readOnly
+                  ? "Notes are never included in a shared example"
+                  : "What you actually did, what broke, what you'd do differently…"
+              }
+              readOnly={readOnly}
               value={s.notes[step.id] ?? ""}
               onChange={(e) => setNote(step.id, e.target.value)}
             />

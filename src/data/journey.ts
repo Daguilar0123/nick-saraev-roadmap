@@ -62,7 +62,12 @@ export const JOURNEY: JourneySection[] = [
     ],
     nodes: [
       { id: "s1", label: "Meeting Booked", tone: "start" },
-      { id: "s2", label: "Follow Up Cycle", tone: "loop", note: "No show? → Rebook" },
+      {
+        id: "s2",
+        label: "Follow Up Cycle",
+        tone: "loop",
+        note: "No show? → Rebook",
+      },
       { id: "s3", label: "Sales Meeting Occurs", tone: "decision" },
       { id: "s4", label: "Wait 30 days", tone: "loop" },
       { id: "s5", label: "Opt out", tone: "exit" },
@@ -95,11 +100,22 @@ export const JOURNEY: JourneySection[] = [
       { id: "f1", label: "Kickoff Call", tone: "start" },
       { id: "f2", label: "Create Entry In Agency Project Manager" },
       { id: "f3", label: "Fulfill Project" },
-      { id: "f4", label: "Record Delivery Video & Send Templated Message/Email to Client" },
+      {
+        id: "f4",
+        label: "Record Delivery Video & Send Templated Message/Email to Client",
+      },
       { id: "f5", label: "Mark Project “Completed”" },
       { id: "f6", label: "Collect Delivery Payment", tone: "money" },
-      { id: "f7", label: "Send Templated Message/Email to Client Requesting Additional Work" },
-      { id: "f8", label: "Add to Followup Queue & Reach Out In 30 Days", tone: "loop" },
+      {
+        id: "f7",
+        label:
+          "Send Templated Message/Email to Client Requesting Additional Work",
+      },
+      {
+        id: "f8",
+        label: "Add to Followup Queue & Reach Out In 30 Days",
+        tone: "loop",
+      },
     ],
     edges: [
       { from: "f1", to: "f2" },

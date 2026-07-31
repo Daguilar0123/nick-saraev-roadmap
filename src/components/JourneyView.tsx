@@ -19,7 +19,9 @@ function Node({ node }: { node: JourneyNode }) {
     >
       {node.label}
       {node.note && (
-        <div className="mt-1 text-[10px] font-normal opacity-70">{node.note}</div>
+        <div className="mt-1 text-[10px] font-normal opacity-70">
+          {node.note}
+        </div>
       )}
     </div>
   );
@@ -38,7 +40,9 @@ export function JourneyView() {
   return (
     <div className="space-y-6">
       <section className="card p-6">
-        <h2 className="text-2xl font-bold text-fog-0">The Automation Customer Journey</h2>
+        <h2 className="text-2xl font-bold text-fog-0">
+          The Automation Customer Journey
+        </h2>
         <div className="mt-3 space-y-3">
           {JOURNEY_INTRO.map((p, i) => (
             <p key={i} className="text-sm leading-relaxed text-fog-2">

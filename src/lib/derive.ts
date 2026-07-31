@@ -29,7 +29,9 @@ export function stepProgress(step: Step, s: RoadmapState): StepProgress {
 
   const keys = stepBlankKeys(step);
   const blanksTotal = keys.length;
-  const blanksDone = keys.filter((k) => (s.blanks[k] ?? "").trim().length > 0).length;
+  const blanksDone = keys.filter(
+    (k) => (s.blanks[k] ?? "").trim().length > 0,
+  ).length;
 
   const total = subsTotal + blanksTotal;
   const done = subsDone + blanksDone;
@@ -73,7 +75,9 @@ export function overall(s: RoadmapState) {
 
 /** The lowest-numbered step that isn't marked done — i.e. where you are now. */
 export function currentStep(s: RoadmapState): Step {
-  return STEPS.find((st) => s.steps[st.id] !== "done") ?? STEPS[STEPS.length - 1];
+  return (
+    STEPS.find((st) => s.steps[st.id] !== "done") ?? STEPS[STEPS.length - 1]
+  );
 }
 
 // Derived business values ------------------------------------------------
@@ -102,8 +106,12 @@ export function dkimDue(s: RoadmapState) {
 }
 
 export function hourlyRate(s: RoadmapState) {
-  const price = Number((s.blanks["project_price"] ?? "").replace(/[^0-9.]/g, ""));
-  const hours = Number((s.blanks["project_hours"] ?? "").replace(/[^0-9.]/g, ""));
+  const price = Number(
+    (s.blanks["project_price"] ?? "").replace(/[^0-9.]/g, ""),
+  );
+  const hours = Number(
+    (s.blanks["project_hours"] ?? "").replace(/[^0-9.]/g, ""),
+  );
   if (!price || !hours) return null;
   return price / hours;
 }

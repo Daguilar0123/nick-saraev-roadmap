@@ -7,7 +7,8 @@ export type Embed =
 
 const YT = /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{6,})/;
 const YT_CHANNEL = /youtube\.com\/@[\w.-]+/;
-const GDOC = /docs\.google\.com\/(spreadsheets|document|presentation)\/d\/([\w-]+)/;
+const GDOC =
+  /docs\.google\.com\/(spreadsheets|document|presentation)\/d\/([\w-]+)/;
 
 /**
  * Most sites send X-Frame-Options / frame-ancestors and simply refuse to render
@@ -28,7 +29,11 @@ export function embedFor(link: LinkRef): Embed {
   if (gdoc) {
     const [, kind, id] = gdoc;
     const path =
-      kind === "presentation" ? "embed" : kind === "document" ? "preview" : "preview";
+      kind === "presentation"
+        ? "embed"
+        : kind === "document"
+          ? "preview"
+          : "preview";
     return {
       mode: "iframe",
       src: `https://docs.google.com/${kind}/d/${id}/${path}`,

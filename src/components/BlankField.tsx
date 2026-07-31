@@ -1,7 +1,7 @@
 "use client";
 
 import type { Blank } from "@/data/types";
-import { useRoadmapActions, useRoadmapState } from "@/lib/store";
+import { useIsOverlay, useRoadmapActions, useRoadmapState } from "@/lib/store";
 import { blankKeys } from "@/lib/derive";
 
 function inputType(t: Blank["type"]) {
@@ -30,6 +30,7 @@ function Row({
 }) {
   const state = useRoadmapState();
   const { setBlank } = useRoadmapActions();
+  const readOnly = useIsOverlay();
   const value = state.blanks[id] ?? "";
   const filled = value.trim().length > 0;
 
@@ -38,6 +39,7 @@ function Row({
       <textarea
         className="field min-h-[5.5rem] resize-y font-sans"
         data-filled={filled}
+        readOnly={readOnly}
         placeholder={placeholder}
         value={value}
         onChange={(e) => setBlank(id, e.target.value)}
@@ -58,10 +60,13 @@ function Row({
           type === "url" ? "font-mono text-xs" : ""
         }`}
         data-filled={filled}
+        readOnly={readOnly}
         placeholder={hint ?? placeholder}
         value={value}
         onChange={(e) => setBlank(id, e.target.value)}
-        inputMode={type === "money" || type === "number" ? "decimal" : undefined}
+        inputMode={
+          type === "money" || type === "number" ? "decimal" : undefined
+        }
       />
     </div>
   );
@@ -110,7 +115,9 @@ export function BlankField({ blank }: { blank: Blank }) {
       )}
 
       {blank.help && (
-        <p className="mt-1 text-[11px] leading-relaxed text-fog-3">{blank.help}</p>
+        <p className="mt-1 text-[11px] leading-relaxed text-fog-3">
+          {blank.help}
+        </p>
       )}
     </div>
   );

@@ -32,6 +32,12 @@ export const EMPTY: RoadmapState = {
 };
 
 let state: RoadmapState = EMPTY;
+/**
+ * When set, the app renders this instead of the user's own state — used for
+ * shared links and the published showcase. Writes are refused while it's
+ * active so a visitor can't half-edit someone else's run and lose their own.
+ */
+let overlay: RoadmapState | null = null;
 let hydrated = false;
 const listeners = new Set<() => void>();
 
@@ -83,10 +89,11 @@ function subscribe(cb: () => void) {
   };
 }
 
-const getSnapshot = () => state;
+const getSnapshot = () => overlay ?? state;
 const getServerSnapshot = () => EMPTY;
 
 function mutate(fn: (draft: RoadmapState) => RoadmapState) {
+  if (overlay) return;
   state = { ...fn(state), updatedAt: new Date().toISOString() };
   persist();
   emit();
@@ -94,6 +101,24 @@ function mutate(fn: (draft: RoadmapState) => RoadmapState) {
 
 export function useRoadmapState() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
+
+/** The user's own state, even while an overlay is being displayed. */
+export function useOwnState() {
+  return useSyncExternalStore(subscribe, () => state, getServerSnapshot);
+}
+
+export function useIsOverlay() {
+  return useSyncExternalStore(
+    subscribe,
+    () => overlay !== null,
+    () => false,
+  );
+}
+
+export function setOverlay(next: RoadmapState | null) {
+  overlay = next;
+  emit();
 }
 
 export function useRoadmapActions() {
@@ -131,9 +156,12 @@ export function useRoadmapActions() {
     });
   }, []);
 
+  /** Adopting a shared run has to survive the overlay guard, so it drops the
+   *  overlay first rather than routing through mutate()'s refusal. */
   const importState = useCallback((incoming: unknown) => {
     if (!incoming || typeof incoming !== "object") return false;
     const candidate = incoming as Partial<RoadmapState>;
+    overlay = null;
     mutate(() => ({ ...EMPTY, ...candidate, v: 1 }));
     return true;
   }, []);

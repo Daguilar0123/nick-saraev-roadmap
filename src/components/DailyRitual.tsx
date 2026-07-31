@@ -37,16 +37,21 @@ export function DailyRitual() {
       <section className="card p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-fog-0">The daily sales ritual</h2>
+            <h2 className="text-2xl font-bold text-fog-0">
+              The daily sales ritual
+            </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-fog-2">
-              Step 14 of the roadmap is the only step that repeats forever, and the board
-              is blunt about why: at 0 customers your only priority is sales, and
-              misprioritisation here is why 90%+ of businesses fail. Under two hours a
-              day — the highest leverage two hours you&apos;ll have.
+              Step 14 of the roadmap is the only step that repeats forever, and
+              the board is blunt about why: at 0 customers your only priority is
+              sales, and misprioritisation here is why 90%+ of businesses fail.
+              Under two hours a day — the highest leverage two hours you&apos;ll
+              have.
             </p>
           </div>
           <div className="text-right">
-            <div className="text-4xl font-bold tabular-nums text-cash">{run}</div>
+            <div className="text-4xl font-bold tabular-nums text-cash">
+              {run}
+            </div>
             <div className="text-[11px] uppercase tracking-wider text-fog-3">
               day streak
             </div>
@@ -144,8 +149,9 @@ export function DailyRitual() {
           })}
         </div>
         <p className="mt-3 text-[11px] text-fog-3">
-          Darker means more of the ritual completed. The board&apos;s whole thesis is
-          that this grid, not the setup steps, is what produces $25K/month.
+          Darker means more of the ritual completed. The board&apos;s whole
+          thesis is that this grid, not the setup steps, is what produces
+          $25K/month.
         </p>
       </section>
     </div>

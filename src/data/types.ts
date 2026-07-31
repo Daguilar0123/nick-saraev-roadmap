@@ -9,13 +9,7 @@ export interface LinkRef {
 }
 
 export type BlankType =
-  | "text"
-  | "textarea"
-  | "url"
-  | "money"
-  | "number"
-  | "date"
-  | "list";
+  "text" | "textarea" | "url" | "money" | "number" | "date" | "list";
 
 export interface Blank {
   id: string;
@@ -27,6 +21,13 @@ export interface Blank {
   count?: number;
   /** Promote this value into the global business profile. */
   profile?: boolean;
+  /**
+   * Eligible for the public showcase. Only tool choices and headline figures
+   * are marked — anything identifying (domains, mailboxes, client names, URLs,
+   * free-text reflections) is omitted by default and has to be opted in by
+   * hand in the showcase builder. Notes are never eligible at all.
+   */
+  publicSafe?: boolean;
 }
 
 export interface SubItem {
