@@ -45,7 +45,7 @@ export function RoadmapList({
     <div className="grid gap-6 lg:grid-cols-[210px_minmax(0,1fr)]">
       {/* Rail ---------------------------------------------------------- */}
       <aside className="no-print hidden lg:block">
-        <div className="sticky top-24 space-y-4">
+        <div className="sticky top-[calc(var(--header-h)+1rem)] space-y-4">
           {PHASES.map((phase) => {
             const steps = STEPS.filter((st) => st.phase === phase.id);
             return (

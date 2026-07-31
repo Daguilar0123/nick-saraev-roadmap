@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SOURCE_URL } from "@/data/roadmap";
 import { SHOWCASE } from "@/data/showcase";
 import { setOverlay, useIsOverlay, useRoadmapState } from "@/lib/store";
@@ -33,6 +33,27 @@ export default function Home() {
   const [focused, setFocused] = useState<number | null>(null);
   const [viewingLabel, setViewingLabel] = useState<string | null>(null);
   const [viewingBlurb, setViewingBlurb] = useState<string | undefined>();
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Publish the sticky header's real height so globals.css can hold that much
+  // room back from anything scrolled into view. It has to be measured rather
+  // than hard-coded: the height moves with the viewport (narrow phones wrap the
+  // tab row) and jumps again whenever the viewing banner is on screen.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const write = () =>
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${Math.round(el.getBoundingClientRect().height)}px`,
+      );
+
+    write();
+    const ro = new ResizeObserver(write);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const goto = useCallback((n: number) => {
     setView("roadmap");
@@ -103,7 +124,10 @@ export default function Home() {
 
   return (
     <div className="min-h-dvh">
-      <header className="no-print sticky top-0 z-30 border-b border-ink-3 bg-ink-0/85 backdrop-blur-xl">
+      <header
+        ref={headerRef}
+        className="no-print sticky top-0 z-30 border-b border-ink-3 bg-ink-0/85 backdrop-blur-xl"
+      >
         {isOverlay && viewingLabel && (
           <ViewingBanner
             label={viewingLabel}
@@ -113,50 +137,56 @@ export default function Home() {
         )}
 
         <div className="mx-auto max-w-6xl px-4">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
-            <div className="min-w-0">
-              <h1 className="truncate text-sm font-bold tracking-tight text-fog-0">
+          {/* The meter shares the title's line rather than wrapping onto one of
+              its own — on a phone that extra row pushed the sticky header past
+              a fifth of the screen. The credit line keeps the full width so it
+              still fits on one line. */}
+          <div className="py-2.5 sm:py-3">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <h1 className="min-w-0 flex-1 truncate text-sm font-bold tracking-tight text-fog-0">
                 Roadmap to $25K/Month With Automation
               </h1>
-              <p className="text-[11px] text-fog-3">
-                by{" "}
-                <a
-                  href={NICK_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-2 hover:text-fog-1"
-                >
-                  Nick Saraev
-                </a>
-                {" · "}
-                <a
-                  href={SOURCE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-2 hover:text-fog-1"
-                >
-                  original board ↗
-                </a>
-                {" · "}
-                <span className="text-fog-3">
-                  unofficial reader&apos;s edition
+
+              <div className="flex shrink-0 items-center gap-2">
+                {/* The dashboard ring says the same thing with more room, so
+                    the bar itself is desktop-only and the phone keeps the
+                    number. */}
+                <div className="hidden h-1.5 w-28 overflow-hidden rounded-full bg-ink-3 sm:block">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-lift to-cash transition-[width] duration-500"
+                    style={{ width: `${Math.round(o.ratio * 100)}%` }}
+                  />
+                </div>
+                <span className="font-mono text-xs tabular-nums text-fog-2">
+                  {Math.round(o.ratio * 100)}%
                 </span>
-              </p>
-            </div>
-
-            <div className="grow" />
-
-            <div className="flex items-center gap-2">
-              <div className="h-1.5 w-28 overflow-hidden rounded-full bg-ink-3">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-lift to-cash transition-[width] duration-500"
-                  style={{ width: `${Math.round(o.ratio * 100)}%` }}
-                />
               </div>
-              <span className="font-mono text-xs tabular-nums text-fog-2">
-                {Math.round(o.ratio * 100)}%
-              </span>
             </div>
+
+            <p className="text-[11px] text-fog-3">
+              by{" "}
+              <a
+                href={NICK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-fog-1"
+              >
+                Nick Saraev
+              </a>
+              {" · "}
+              <a
+                href={SOURCE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-fog-1"
+              >
+                original board ↗
+              </a>
+              {" · "}
+              <span className="text-fog-3">
+                unofficial reader&apos;s edition
+              </span>
+            </p>
           </div>
 
           <nav className="-mx-1 flex gap-1 overflow-x-auto pb-2">

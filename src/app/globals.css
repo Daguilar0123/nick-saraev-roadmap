@@ -31,6 +31,10 @@
   --accent-first-client: #b57cff;
   --accent-scale: #2fd67d;
 
+  /* Overwritten with the real measurement by the header in app/page.tsx. This
+     value is only the pre-hydration guess. */
+  --header-h: 5.5rem;
+
   color-scheme: dark;
 }
 
@@ -38,6 +42,14 @@ html,
 body {
   background: var(--color-ink-0);
   color: var(--color-fog-0);
+}
+
+/* The header is sticky, so anything scrolled flush to the top of the viewport
+   lands behind it — on a phone that hid the whole title of the step you just
+   opened. Reserving the header's height here fixes every scrollIntoView and
+   hash jump at once, which is why no component sets its own scroll-margin. */
+html {
+  scroll-padding-top: calc(var(--header-h) + 0.75rem);
 }
 
 body {

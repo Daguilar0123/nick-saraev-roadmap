@@ -163,7 +163,7 @@ export function StepCard({
   return (
     <section
       id={`step-${step.n}`}
-      className="card scroll-mt-24 overflow-hidden"
+      className="card overflow-hidden"
       style={{ borderLeft: `3px solid ${phase.accent}` }}
     >
       <header
