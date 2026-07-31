@@ -12,9 +12,18 @@ const SITE_URL = "https://daguilar0123.github.io/nick-saraev-roadmap/";
  * - Keywords are grounded in what the roadmap actually contains (cold email,
  *   Make.com, Instantly, Smartlead, Apollo, Upwork — verified against the
  *   step data), not guessed.
- * - No geo.* tags: this page is not about a place. The author entity carries
- *   the identity link to receiptsnotvibes.ai instead.
+ * - No geo.* tags and no homeLocation: this page is not about a place, so
+ *   locality buys nothing in search — it would only publish a personal
+ *   address. The author entity carries the identity link to
+ *   receiptsnotvibes.ai instead, which is the part that actually helps.
  */
+
+const OG_IMAGE = {
+  url: `${SITE_URL}og-card.png`,
+  width: 1200,
+  height: 630,
+  alt: "A luminous stepped path of nodes climbing from deep violet at the lower left to a bright green summit at the upper right — the 21 steps of the roadmap.",
+};
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title:
@@ -46,12 +55,16 @@ export const metadata: Metadata = {
     siteName: "Roadmap to $25K/Month With Automation — Reader's Edition",
     type: "website",
     locale: "en_US",
+    images: [OG_IMAGE],
   },
   twitter: {
-    card: "summary",
+    // summary_large_image, not summary: with a real 1200x630 card the wide
+    // format is the whole point.
+    card: "summary_large_image",
     title: "Roadmap to $25K/Month With Automation — Interactive Checklist",
     description:
       "An unofficial, fill-in-the-blanks reader's edition of Nick Saraev's roadmap. 21 steps, ~90 items, everything saves in your browser.",
+    images: [OG_IMAGE],
   },
 };
 
@@ -78,6 +91,8 @@ const graph = {
       isAccessibleForFree: true,
       description:
         "An interactive, fill-in-the-blanks working copy of the automation-agency roadmap: 21 steps, ~90 checklist items, progress and answers stored locally in the browser.",
+      image: `${SITE_URL}og-card.png`,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       author: { "@id": `${SITE_URL}#daniel` },
       isBasedOn: { "@id": `${SITE_URL}#source` },
     },
@@ -100,7 +115,6 @@ const graph = {
       "@id": `${SITE_URL}#daniel`,
       name: "Daniel Aguilar",
       url: "https://receiptsnotvibes.ai/about",
-      homeLocation: { "@type": "Place", name: "Haverstraw, New York" },
       sameAs: [
         "https://github.com/Daguilar0123",
         "https://receiptsnotvibes.ai",
