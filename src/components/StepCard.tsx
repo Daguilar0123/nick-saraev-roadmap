@@ -167,7 +167,7 @@ export function StepCard({
       style={{ borderLeft: `3px solid ${phase.accent}` }}
     >
       <header
-        className="flex cursor-pointer items-start gap-3 p-4"
+        className="flex cursor-pointer flex-wrap items-start gap-3 p-4"
         onClick={() => setOpen((v) => !v)}
       >
         <span
@@ -228,7 +228,11 @@ export function StepCard({
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-col items-end gap-2">
+        {/* The three-segment toggle wants ~230px and never shrinks, which on a
+            phone left the title a column too narrow to fit one word of it.
+            Below sm it takes a line of its own rather than squeezing the title;
+            from sm up it sits back in the corner. */}
+        <div className="flex w-full shrink-0 items-center justify-between gap-2 sm:w-auto sm:flex-col sm:items-end">
           <StatusToggle id={step.id} status={status} />
           <span className="no-print text-xs text-fog-3">
             {open ? "▾" : "▸"}
