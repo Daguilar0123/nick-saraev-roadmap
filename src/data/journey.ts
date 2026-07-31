@@ -3,6 +3,8 @@
  * Node text is verbatim; the prose blocks are the board's own annotations.
  */
 
+import type { LinkRef } from "./types";
+
 export interface JourneyNode {
   id: string;
   label: string;
@@ -15,6 +17,8 @@ export interface JourneySection {
   n: number;
   title: string;
   prose: string[];
+  /** Resources Nick links from this section's annotations. */
+  links?: LinkRef[];
   nodes: JourneyNode[];
   edges?: { from: string; to: string; label?: string }[];
 }
@@ -54,8 +58,16 @@ export const JOURNEY: JourneySection[] = [
     id: "sales",
     n: 2,
     title: "Sales",
+    links: [
+      {
+        label: "Building a Sales Process for Your Automation Agency",
+        url: "https://whimsical.com/building-a-sales-process-for-your-automation-agency-TfvzofuqfimcnQ9C9muLAo",
+        kind: "web",
+        note: "Nick's companion Whimsical board, linked from this section of the roadmap — it covers the other sales models he mentions here.",
+      },
+    ],
     prose: [
-      "Next is selling the lead. Agencies have a variety of sales models, but the one preferred here is the traditional model.",
+      "Next is selling the lead. Agencies have a variety of sales models — which Nick shows in a separate Whimsical board, linked below — but the one preferred here is the traditional model.",
       "This model involves one sales meeting—which is both your discovery and your closing call—and then a detailed proposal/SOW afterwards.",
       "I like this model because it lets me automate the majority of the sales administration work while also keeping the number of “hoops” a prospect has to jump through low.",
       "Since documents and emails are easy to automate, you can also create a lot of leverage by having systems do the work for you, and this is why I consider it both more efficient and effective than high-pressure one-call closes or drawn out protracted two/three call closes.",

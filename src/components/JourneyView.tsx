@@ -1,6 +1,8 @@
 "use client";
 
 import { JOURNEY, JOURNEY_INTRO, type JourneyNode } from "@/data/journey";
+import { LinkList } from "./LinkCard";
+import { SectionHeading } from "./Provenance";
 
 const TONE: Record<string, string> = {
   start: "border-lift/50 bg-lift/12 text-lift-soft",
@@ -127,6 +129,12 @@ export function JourneyView() {
                   {p}
                 </p>
               ))}
+              {!!section.links?.length && (
+                <div className="pt-1">
+                  <SectionHeading source="nick">Resources</SectionHeading>
+                  <LinkList links={section.links} />
+                </div>
+              )}
             </div>
           </div>
         </section>
