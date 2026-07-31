@@ -19,6 +19,7 @@ import {
 } from "@/lib/derive";
 import { BlankField } from "./BlankField";
 import { LinkChips, LinkList } from "./LinkCard";
+import { SectionHeading, SourceBadge } from "./Provenance";
 
 const STATUS_LABEL: Record<StepStatus, string> = {
   todo: "Not started",
@@ -196,7 +197,11 @@ export function StepCard({
             >
               {phase.title}
             </span>
-            {step.effort && <span>⏱ {step.effort}</span>}
+            {step.effort && (
+              <span title="Effort estimate written for this edition — not on Nick's board.">
+                ⏱ {step.effort}
+              </span>
+            )}
             <span>
               {p.subsDone}/{p.subsTotal} items
             </span>
@@ -243,8 +248,8 @@ export function StepCard({
               Nick's, and a reader should never have to guess which is which. */}
           {step.why && (
             <div className="border-l-2 border-ink-4 pl-3">
-              <div className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-fog-3">
-                Reader&apos;s note · not Nick&apos;s words
+              <div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-fog-3">
+                Reader&apos;s note <SourceBadge source="edition" />
               </div>
               <p className="text-sm italic leading-relaxed text-fog-2">
                 {step.why}
@@ -254,25 +259,27 @@ export function StepCard({
 
           {/* Sub-items --------------------------------------------------- */}
           <div>
-            <div className="mb-2 flex items-center justify-between">
-              <h4 className="text-[11px] font-bold uppercase tracking-wider text-fog-3">
-                Checklist
-              </h4>
-              {!readOnly && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSubs(
-                      step.subs.map((x) => x.id),
-                      !allSubsDone,
-                    )
-                  }
-                  className="no-print text-[11px] text-fog-3 underline underline-offset-2 hover:text-fog-1"
-                >
-                  {allSubsDone ? "Clear all" : "Check all"}
-                </button>
-              )}
-            </div>
+            <SectionHeading
+              source="nick"
+              right={
+                !readOnly ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSubs(
+                        step.subs.map((x) => x.id),
+                        !allSubsDone,
+                      )
+                    }
+                    className="no-print text-[11px] text-fog-3 underline underline-offset-2 hover:text-fog-1"
+                  >
+                    {allSubsDone ? "Clear all" : "Check all"}
+                  </button>
+                ) : undefined
+              }
+            >
+              Checklist
+            </SectionHeading>
             <ul className="space-y-1">
               {step.subs.map((sub) => {
                 const checked = !!s.subs[sub.id];
@@ -310,9 +317,9 @@ export function StepCard({
           {/* Blanks ------------------------------------------------------ */}
           {!!step.blanks?.length && (
             <div>
-              <h4 className="mb-2.5 text-[11px] font-bold uppercase tracking-wider text-fog-3">
+              <SectionHeading source="edition">
                 Fill in the blanks
-              </h4>
+              </SectionHeading>
               <div className="grid gap-4 sm:grid-cols-2">
                 {step.blanks.map((b) => (
                   <div
@@ -335,18 +342,14 @@ export function StepCard({
           {/* Resources --------------------------------------------------- */}
           {!!step.links?.length && (
             <div>
-              <h4 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-fog-3">
-                Resources
-              </h4>
+              <SectionHeading source="nick">Resources</SectionHeading>
               <LinkList links={step.links} />
             </div>
           )}
 
           {/* Notes ------------------------------------------------------- */}
           <div>
-            <h4 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-fog-3">
-              Your notes
-            </h4>
+            <SectionHeading source="yours">Your notes</SectionHeading>
             <textarea
               className="field min-h-[4.5rem] resize-y"
               placeholder={
